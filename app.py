@@ -10,19 +10,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_extraction.text import HashingVectorizer
 
 # Load the metadata and index from the source file
-metadata = pd.read_csv('sentinlinks.csv', nrows = 30000).dropna()
+metadata = pd.read_csv('final_data.csv').dropna()
 
-def map_sentiment(score):
-    if score > 0.3:
-        return 'positive'
-    elif 0.3 >= score >= -0.3:
-        return 'neutral'
-    else:
-        return 'negative'
+# metadata['sentiment_label'] = metadata['sentiment_score'].apply(map_sentiment)
 
-metadata['sentiment_label'] = metadata['sentiment_score'].apply(map_sentiment)
-
-metadata['text'] = metadata['headline'] + " " + metadata['abstract']
+metadata['text'] = metadata['headline'] + " " + metadata['abstract'] + " " + metadata['category'] + " " + metadata['keywords']
 metadata['text'] = metadata['text'].apply(lambda x: x.lower())
 metadata['text'] = metadata['text'].apply(lambda x: re.sub(r'\W+', ' ', x))
 
@@ -36,11 +28,11 @@ def recommend_news(query):
     recommendations_df = get_recommendations(query, vectorizer, index, metadata)
     return recommendations_df
 
-def get_recommendations(query, vectorizer, index, metadata, k=10):
+def get_recommendations(query, vectorizer, index, metadata, k=5):
     # Transform the query into a vector
     query_vector = vectorizer.transform([query])
     
-    def search(index, query_vector, k=10):
+    def search(index, query_vector, k=5):
         D, I = index.search(query_vector, k)
         return I[0]
 
