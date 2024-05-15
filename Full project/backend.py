@@ -80,18 +80,11 @@ def get_news_recommendations(query):
             'urlToImage': urlToImage
         })
     
+    # Recommendation based on sentiment
+
     return recommendations
-
-if __name__ == "__main__":
-    query = input("What are you looking for?\n")
-    recommendations = get_news_recommendations(query)
-    if recommendations is not None:
-        print("Recommendations for:", query)
-        print(recommendations)
-        recommended_news = recommend_news(recommendations)
-        print("Recommended news:")
-        print(recommended_news)
-
+   
+"""
 def analyze_sentiment(df):
     sid = SentimentIntensityAnalyzer()
     nan_indices = df['text'].isna()
@@ -111,12 +104,15 @@ def recommend_news(df, threshold=0.1):
     df['sentiment_label'] = df['sentiment_score'].apply(map_sentiment)
     return df[df['sentiment_score'] >= threshold]
 
+    """
+
 if __name__ == "__main__":
     query = input("What are you looking for?\n")
-    recommendations = get_news_recommendations(query)
-    if recommendations is not None:
-        print("Recommendations for:", query)
-        print(recommendations)
-        recommended_news = recommend_news(recommendations)
-        print("Recommended news:")
-        print(recommended_news)
+    recommended_news = get_news_recommendations(query)
+    if recommended_news:
+        print("Recommendations based on the query:")
+        for recommendation in recommended_news:
+            print(recommendation)
+        print(recommendation.headline)
+    else:
+        print("No recommendations found for the given query.")
