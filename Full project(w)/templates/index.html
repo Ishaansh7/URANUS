@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>News Recommendations</title>
+</head>
+<body>
+    
+    <input type="text" id="search-text" placeholder="Enter search query">
+    <button id="search-button">Search</button>
+    <div id="cards-container"></div>
+
+    <template id="template-news-card">
+        <div class="news-card">
+            <img class="news-img" src="" alt="News Image">
+            <h2 class="news-title"></h2>
+            <p class="news-source"></p>
+            <p class="news-desc"></p>
+            <a class="news-link" href="#" target="_blank">Read more</a>
+        </div>
+    </template>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
